@@ -1,11 +1,12 @@
 <template>
-<div v-if="trays.length > 0">
+<div v-if="trays.length > 0" class="container">
 <h1 class="title"> Bienvenido al RestoRave! </h1>
 <h2> Menus para agitar la cabeza</h2>
   <ul class="menus">
     <li v-for="tray in trays" :key="tray.id" class="menu" @click="showTray(tray.id)">
       {{ tray.name }}
-      $ {{ tray.price }}
+      <br> <br>
+      <h2>$ {{ tray.price }}</h2>
     </li>
   </ul>
   <!-- pasar a la siguiente pagina -->
@@ -26,7 +27,8 @@ export default {
   data () {
     return {
       trays: [],
-      page: 1
+      page: 1,
+      size: 15,
     }
   },
   methods: {
@@ -39,7 +41,8 @@ export default {
       const url = 'https://tarea-1.2023-1.tallerdeintegracion.cl'
       axios.get(url + '/trays', {
         params: {
-          page: this.page
+          page: this.page,
+          size: this.size
         }
       }
       ).then((response) => {
@@ -58,7 +61,8 @@ export default {
         const url = 'https://tarea-1.2023-1.tallerdeintegracion.cl'
         axios.get(url + '/trays', {
           params: {
-            page: this.page
+            page: this.page,
+            size: this.size
           }
         }
         ).then((response) => {
@@ -76,7 +80,8 @@ export default {
     const url = 'https://tarea-1.2023-1.tallerdeintegracion.cl'
     axios.get(url + '/trays', {
       params: {
-        page: 1
+        page: 1,
+        size: this.size
       }
     }
     ).then((response) => {
@@ -100,18 +105,29 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.container {
+  gap: 1rem;
+  padding: 1rem;
+  margin: auto;
+}
 .menus {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  background-color: #2c3e50;
 }
 .menu {
   list-style: none;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
+  min-height: 150px;
   margin-bottom: 10px;
+  background-color: #fff;
 }
 .menu:hover {
   background-color: #ccc;

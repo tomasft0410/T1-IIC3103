@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <h1>Seleccioanste un Plato!</h1>
-    <h2>Nombre: {{ course.name }}</h2>
-    <h2>Descripcion: {{ course.description }}</h2>
-    <h2>Precio:{{ course.price }}</h2>
+  <div class="container">
+    <h1>El plato que seleccionaste es: {{ course.name }}</h1>
+    <img :src="course.img_url" alt="course.name" width="100" height="100">
+    <h2>{{ course.description }}</h2>
+    <h2>${{ course.price }}</h2>
     <h2>Tamaño: {{ course.size }}</h2>
     <h2>Expiración: {{ course.expiration }}</h2>
-    <img :src="course.img_url" alt="course.name" width="100" height="100">
     <h2>Categoria: {{ course.category }}</h2>
 
     <h1>Ingredientes:</h1>
-    <ul>
-      <li v-for="ingredient in course.ingredients" :key="ingredient.id" @click="selectIngredient(ingredient.id)">
+    <ul class="ingredients">
+      <li v-for="ingredient in course.ingredients" :key="ingredient.id" @click="selectIngredient(ingredient.id)" class="ingredient">
         {{ ingredient.name }}
+        <br> <br>
         <img :src="ingredient.img_url" alt="ingredient.name" width="100" height="100">
+        <br> <br>
         Cantidad: {{ ingredient.quantity }}
       </li>
     </ul>
@@ -46,4 +47,30 @@ export default {
 </script>
 
 <style>
+.container {
+  gap: 1rem;
+  padding: 1rem;
+  margin: auto;
+  border: 1px solid black;
+  width: 80%;
+  background-color: #f0eaea;
+  margin-top: 3rem;
+}
+.ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  list-style: none;
+}
+.ingredient {
+  width: 200px;
+  height: 300px;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.ingredient:hover {
+  background-color: #ccc;
+}
 </style>

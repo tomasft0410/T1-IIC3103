@@ -9,8 +9,10 @@
     <h2>Categoria: {{ course.category }}</h2>
 
     <h1>Ingredientes:</h1>
+     <!-- buscar por nombre -->
+     <input type="text" v-model="search" placeholder="Search">
     <ul class="ingredients">
-      <li v-for="ingredient in course.ingredients" :key="ingredient.id" @click="selectIngredient(ingredient.id)" class="ingredient">
+      <li v-for="ingredient in filterlist" :key="ingredient.id" @click="selectIngredient(ingredient.id)" class="ingredient">
         {{ ingredient.name }}
         <br> <br>
         <img :src="ingredient.img_url" alt="ingredient.name" width="100" height="100">
@@ -28,6 +30,7 @@ export default {
   },
   data () {
     return {
+      search : '',
     }
   },
   async asyncData ({ params }) {
@@ -35,6 +38,13 @@ export default {
       const response = await fetch(url + '/courses/' + params.id)
       const course = await response.json()
       return { course }
+  },
+  computed: {
+    filterlist() {
+      return this.course.ingredients.filter((ingredient) => {
+        return ingredient.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   },
   methods: {
     selectIngredient (id) {

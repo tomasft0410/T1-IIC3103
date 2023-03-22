@@ -1,11 +1,22 @@
 <template>
-<div v-if="trays.length > 0" class="container">
+<div v-if="trays.length >= 0" class="container">
 <h1 class="title"> Bienvenido al RestoRave! </h1>
 <h2> Menus para agitar la cabeza</h2>
-<!-- buscar por nombre -->
-<div class="buscador">
-  <input type="text" v-model="search" placeholder="Buscar por nombre">
-  <button @click="searchTrayByName">Buscar</button>
+<!--buscar por nombre-->
+<div class="buscador" >
+<input type="text" v-model="search" placeholder="Buscar por nombre">
+<button @click="searchTrayByName">Buscar</button>
+</div>
+<!-- ordenar -->
+<div class ="texto">
+  <p> Ordenar por </p>
+</div>
+
+<div class="botones" >
+  <button name="order" id = "name,asc" @click="orderBy">nombre ascendente</button>
+  <button name="order" id = "name,desc" @click="orderBy">nombre descendente</button>
+  <button name="order" id = "price,asc" @click="orderBy">precio ascendente</button>
+  <button name="order" id = "price,desc" @click="orderBy">precio descendente</button>
 </div>
   <ul class="menus">
     <li v-for="tray in trays" :key="tray.id" class="menu" @click="showTray(tray.id)">
@@ -35,6 +46,8 @@ export default {
       page: 1,
       size: 15,
       search: '',
+      sort: 'name',
+      order: 'asc',
     }
   },
   methods: {
@@ -48,7 +61,9 @@ export default {
       axios.get(url + '/trays', {
         params: {
           page: this.page,
-          size: this.size
+          size: this.size,
+          sort: this.sort,
+          order: this.order
         }
       }
       ).then((response) => {
@@ -68,7 +83,9 @@ export default {
         axios.get(url + '/trays', {
           params: {
             page: this.page,
-            size: this.size
+            size: this.size,
+            sort: this.sort,
+            order: this.order
           }
         }
         ).then((response) => {
@@ -80,6 +97,27 @@ export default {
           }
           )
       }
+    },
+    orderBy (event) {
+      this.order = event.target.id.split(',')[1]
+      this.sort = event.target.id.split(',')[0]
+      const url = 'https://tarea-1.2023-1.tallerdeintegracion.cl'
+      axios.get(url + '/trays', {
+        params: {
+          page: 1,
+          size: this.size,
+          sort: event.target.id.split(',')[0],
+          order: event.target.id.split(',')[1]
+        }
+      }
+      ).then((response) => {
+        this.trays = response.data.items
+        console.log(this.trays)
+      })
+        .catch((error) => {
+          console.log(error)
+        }
+        )
     },
     searchTrayByName () {
       const url = 'https://tarea-1.2023-1.tallerdeintegracion.cl'
@@ -165,6 +203,21 @@ export default {
   text-transform: uppercase;
   font-size: 3rem;
   color: grey;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+}
+
+.buscador {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.texto {
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  color: #13a01a;
   font-weight: 900;
   font-family: 'Catamaran', sans-serif;
   font-style: italic;

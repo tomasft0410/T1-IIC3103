@@ -2,6 +2,11 @@
 <div v-if="trays.length > 0" class="container">
 <h1 class="title"> Bienvenido al RestoRave! </h1>
 <h2> Menus para agitar la cabeza</h2>
+<!-- buscar por nombre -->
+<div class="buscador">
+  <input type="text" v-model="search" placeholder="Buscar por nombre">
+  <button @click="searchTrayByName">Buscar</button>
+</div>
   <ul class="menus">
     <li v-for="tray in trays" :key="tray.id" class="menu" @click="showTray(tray.id)">
       {{ tray.name }}
@@ -29,6 +34,7 @@ export default {
       trays: [],
       page: 1,
       size: 15,
+      search: '',
     }
   },
   methods: {
@@ -74,6 +80,22 @@ export default {
           }
           )
       }
+    },
+    searchTrayByName () {
+      const url = 'https://tarea-1.2023-1.tallerdeintegracion.cl'
+      axios.get(url + '/search/trays', {
+        params: {
+          name: this.search,
+        }
+      }
+      ).then((response) => {
+        console.log(response.data)
+        this.trays = response.data
+      })
+        .catch((error) => {
+          console.log(error)
+        }
+        )
     }
   },
   mounted () {

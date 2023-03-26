@@ -48,11 +48,12 @@ export default {
       search: '',
       sort: 'name',
       order: 'asc',
+      total_pages: 0
     }
   },
   methods: {
     showTray (id) {
-      window.location.href = '/trays/' + id
+      this.$router.push(`/trays/${id}`)
     },
     nextPage () {
       this.page = this.page + 1

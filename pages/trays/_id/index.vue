@@ -1,8 +1,10 @@
 <template>
   <div class="container">
     <h1>El menu seleccionado es:</h1>
+    <!-- buscar por nombre -->
+    <input type="text" v-model="search" placeholder="Search">
     <ul class="platos">
-      <li v-for="course in tray.courses" :key="course.id" @click="selectCourse(course.id)" class="plato">
+      <li v-for="course in filterlist" :key="course.id" @click="selectCourse(course.id)" class="plato">
         {{ course.name }}
         <br> <br>
         <img :src="course.img_url" alt="course.name" width="100" height="100">
@@ -58,6 +60,7 @@ export default {
   },
   data () {
     return {
+      search: '',
       showReviewForm: false,
       email: "",
       contraseña: "",
@@ -80,6 +83,13 @@ export default {
     tray.average = (tray.reviews.map(review => review.rating).reduce((a, b) => a + b, 0) / tray.reviews.length).toFixed(1)
 		return { tray }
 	},
+  computed: {
+    filterlist() {
+      return this.tray.courses.filter((course) => {
+        return course.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
   methods: {
     selectCourse (id) {
       this.$router.push('/courses/' + id)

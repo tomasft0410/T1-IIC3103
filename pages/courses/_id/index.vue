@@ -42,8 +42,10 @@
       </form>
     </div>
     <h1>Ingredientes:</h1>
+     <!-- buscar por nombre -->
+     <input type="text" v-model="search" placeholder="Search">
     <ul class="ingredients">
-      <li v-for="ingredient in course.ingredients" :key="ingredient.id" @click="selectIngredient(ingredient.id)" class="ingredient">
+      <li v-for="ingredient in filterlist" :key="ingredient.id" @click="selectIngredient(ingredient.id)" class="ingredient">
         {{ ingredient.name }}
         <br> <br>
         <img :src="ingredient.img_url" alt="ingredient.name" width="100" height="100">
@@ -62,6 +64,7 @@ export default {
   },
   data () {
     return {
+      search: '',
       showReviewForm: false,
       email: "",
       contraseña: "",
@@ -83,6 +86,13 @@ export default {
       course.average = (course.reviews.map(review => review.rating).reduce((a, b) => a + b, 0) / course.reviews.length).toFixed(1)
       console.log((course.reviews.map(review => review.rating).reduce((a, b) => a + b, 0) / course.reviews.length).toFixed(1))
       return { course }
+  },
+  computed: {
+    filterlist() {
+      return this.course.ingredients.filter((ingredient) => {
+        return ingredient.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   },
   methods: {
     selectIngredient (id) {

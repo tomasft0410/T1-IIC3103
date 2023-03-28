@@ -2,29 +2,29 @@
   {
     "name": "courses-id",
     "path": "/courses/:id",
-    "component": "C:\\\\Users\\\\tomas.fernandez\\\\Documents\\\\13° Semestre\\\\Taller de Integracion\\\\T1-IIC3103\\\\pages\\\\courses\\\\_id\\\\index.vue",
+    "component": "/apps/T1-IIC3103/pages/courses/_id/index.vue",
     "chunkName": "pages/courses/_id/index",
-    "_name": "_2f2f5f70"
+    "_name": "_0184235c"
   },
   {
     "name": "ingredients-id",
     "path": "/ingredients/:id",
-    "component": "C:\\\\Users\\\\tomas.fernandez\\\\Documents\\\\13° Semestre\\\\Taller de Integracion\\\\T1-IIC3103\\\\pages\\\\ingredients\\\\_id\\\\index.vue",
+    "component": "/apps/T1-IIC3103/pages/ingredients/_id/index.vue",
     "chunkName": "pages/ingredients/_id/index",
-    "_name": "_4d7c9152"
+    "_name": "_c77f2034"
   },
   {
     "name": "trays-id",
     "path": "/trays/:id",
-    "component": "C:\\\\Users\\\\tomas.fernandez\\\\Documents\\\\13° Semestre\\\\Taller de Integracion\\\\T1-IIC3103\\\\pages\\\\trays\\\\_id\\\\index.vue",
+    "component": "/apps/T1-IIC3103/pages/trays/_id/index.vue",
     "chunkName": "pages/trays/_id/index",
-    "_name": "_3ab302e6"
+    "_name": "_068d4661"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\tomas.fernandez\\\\Documents\\\\13° Semestre\\\\Taller de Integracion\\\\T1-IIC3103\\\\pages\\\\index.vue",
+    "component": "/apps/T1-IIC3103/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_494b22ec"
+    "_name": "_03324488"
   }
 ]

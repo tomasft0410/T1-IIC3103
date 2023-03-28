@@ -3,8 +3,7 @@
     <button onclick="history.back()" class="volver">Volver</button> &nbsp;
     <div class="course_card">
       <h2>{{ course.name }}</h2>
-      <br> <br>
-      <img :src="course.img_url" alt="course.name" width="100" height="100" class="card_img">
+      <img :src="course.img_url" alt="course.name" width="200" height="200" class="card_img">
       <h2>{{ course.description }}</h2>
     </div>
     <h2>${{ course.price }}</h2>
@@ -15,9 +14,9 @@
       <h2> Promedio Ratings: {{ course.average }}</h2>
     </div>
 
-    <h1>Ingredientes:</h1>
+    <h1 style="text-align: center;"> Ingredientes </h1>
      <!-- buscar por nombre -->
-     <input type="text" v-model="search" placeholder="Buscar entre los ingredientes" class="buscador">
+    <input type="text" v-model="search" placeholder="Buscar entre los ingredientes" class="buscador" >
     <ul class="ingredients ">
       <li v-for="ingredient in filterlist" :key="ingredient.id" @click="selectIngredient(ingredient.id)" class="ingredient">
         {{ ingredient.name }}
@@ -28,7 +27,14 @@
       </li>
     </ul>
 
-    <h3> Reseñas: </h3>
+    <h1 style="text-align: center;"> Reseñas </h1>
+    <p style=" font-size: 20px; font-weight: 900; font-family: 'Catamaran'; sans-serif; font-style: italic;">Ordenar Por:</p>
+    <div class="botones" >
+      <button name="order" id = "fecha,asc" @click="orderBy" class="boton_2"> Fecha Ascendente</button>
+      <button name="order" id = "fecha,desc" @click="orderBy" class="boton_2">Fecha Descendente</button>
+      <button name="order" id = "rating,asc" @click="orderBy" class="boton_2">Rating (Menor a Mayor)</button>
+      <button name="order" id = "rating,desc" @click="orderBy" class="boton_2">Rating (Mayor a Menor)</button>
+    </div>
     <div class="reviews">
       <li v-for="review in course.reviews" :key="review.id" class="review">
         {{ review.rating }} / 5 <br>
@@ -43,23 +49,19 @@
     <div v-if="!showReviewForm">
     <button @click="showPopup" class="reseña">Dejar una reseña</button>
     </div>
-    <div v-if="showReviewForm">
+    <div v-if="showReviewForm" class="form_container">
       <form>
         <label>
-          Email:
-          <input type="text" v-model="email" />
+          <input type="text" v-model="email" class="input" placeholder = "ingrese su email"/>
         </label>
         <label>
-          Contraseña:
-          <input type="email" v-model="contraseña" />
+          <input type="password" v-model="contraseña" class="input" placeholder = "ingrese contraseña" />
         </label>
         <label>
-          Reseña:
-          <textarea v-model="review"></textarea>
+          <input type="text" v-model="review" class="texto_reseña" placeholder = "ingrese su reseña..">
         </label>
         <label>
-          rating:
-          <input min="1" max="5" type="number" v-model="rating" />
+          <input min="1" max="5" type="number" v-model="rating" class="input" placeholder ="rating"/>
         </label>
         <button  class="reseña" type="button" @click="submitReview">Enviar reseña</button>
       </form>
@@ -80,7 +82,7 @@ export default {
       email: "",
       contraseña: "",
       review: "",
-      rating : 0,
+      rating : "",
       entity_id : '',
     }
   },
@@ -110,6 +112,24 @@ export default {
     },
     showPopup() {
         this.showReviewForm = true;
+    },
+    orderBy(event){
+      const order = event.target.id.split(",")[0]
+      if (order === "fecha"){
+        //order tray.review by date
+        if (event.target.id.split(",")[1] === "asc"){
+          this.course.reviews.sort((a, b) => (a.date >= b.date) ? 1 : -1)
+        } else {
+          this.course.reviews.sort((a, b) => (a.date <= b.date) ? 1 : -1)
+        }
+      }
+      else {
+        if (event.target.id.split(",")[1] === "asc"){
+          this.course.reviews.sort((a, b) => (a.rating >= b.rating) ? 1 : -1)
+        } else {
+          this.course.reviews.sort((a, b) => (a.rating <= b.rating) ? 1 : -1)
+        }
+      }
     },
     async submitReview() {
       try {
@@ -221,6 +241,8 @@ export default {
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
+  text-align: center;
+  width: 180px;
 }
 .volver {
   justify-content: center;
@@ -240,12 +262,7 @@ export default {
   color: #2c3e50;
   cursor: pointer;
 }
-.buscador {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 10px;
-}
+
 html {
   background-image: url(https://www.sleek-mag.com/wp-content/uploads/2017/08/Brave-Factory-Music-Festival-5.jpg)
 }
@@ -271,5 +288,77 @@ html {
   cursor: pointer;
   color: #2c3e50;
   background-color: white;
+}
+.input {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-right: 40px;
+}
+
+.form_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: hwb(240 89% 8%);
+}
+
+.texto_reseña {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-right: 40px;
+  width: 300px;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+
+.boton {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+  padding: auto;
+}
+.boton:hover {
+  background-color: white;
+  color: #2c3e50;
+  cursor: pointer;
+}
+.boton_2 {
+  justify-content: center;
+  gap: 1rem;
+  width: 200px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+  padding: auto;
+}
+.boton_2:hover {
+  background-color: white;
+  color: #2c3e50;
+  cursor: pointer;
 }
 </style>

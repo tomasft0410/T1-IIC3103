@@ -1,34 +1,27 @@
 <template>
 <div v-if="trays.length >= 0" class="container">
-<h1 class="title"> Bienvenido al RestoRave! </h1>
-<h2> Menus para agitar la cabeza</h2>
-<!--buscar por nombre-->
-<div class="buscador" >
-<input type="text" v-model="search" placeholder="Buscar por nombre">
-<button @click="searchTrayByName">Buscar</button>
-</div>
-<!-- ordenar -->
-<div class ="texto">
-  <p> Ordenar por </p>
-</div>
+  <h1 class="title"> RestoRave </h1>
+  <div>
+    <p style=" font-size: 20px; font-weight: 900; font-family: 'Catamaran', sans-serif; font-style: italic;">Ordenar Por:</p>
+    <div class="botones" >
+      <button name="order" id = "name,asc" @click="orderBy" class="boton_2">Nombre (A-Z)</button>
+      <button name="order" id = "name,desc" @click="orderBy" class="boton_2">Nombre (Z-A)</button>
+      <button name="order" id = "price,asc" @click="orderBy" class="boton_2">Precio (Menor a Mayor)</button>
+      <button name="order" id = "price,desc" @click="orderBy" class="boton_2">Precio (Mayor a Menor)</button>
+    </div>
+  </div>
 
-<div class="botones" >
-  <button name="order" id = "name,asc" @click="orderBy">nombre ascendente</button>
-  <button name="order" id = "name,desc" @click="orderBy">nombre descendente</button>
-  <button name="order" id = "price,asc" @click="orderBy">precio ascendente</button>
-  <button name="order" id = "price,desc" @click="orderBy">precio descendente</button>
-</div>
+  <input type="text" v-model="search" placeholder="Buscar un menu por nombre" class="buscador">
   <ul class="menus">
-    <li v-for="tray in trays" :key="tray.id" class="menu" @click="showTray(tray.id)">
-      {{ tray.name }}
+    <li v-for="tray in filterlist" :key="tray.id" class="menu" @click="showTray(tray.id)">
+      <p class="name">{{ tray.name }}</p>
       <br> <br>
-      <h2>$ {{ tray.price }}</h2>
+      <h2 class="price">$ {{ tray.price }}</h2>
     </li>
   </ul>
-  <!-- pasar a la siguiente pagina -->
   <div class = "botones">
-    <button v-if="this.page > 1" @click="prevPage">Anterior</button>
-    <button v-if="this.page < this.total_pages" @click="nextPage">Siguiente</button>
+    <button v-if="this.page > 1" @click="prevPage" class="boton">Anterior</button>
+    <button v-if="this.page < this.total_pages" @click="nextPage" class="boton">Siguiente</button>
   </div>
 </div>
 </template>
@@ -153,23 +146,28 @@ export default {
         console.log(error)
       }
       )
+  },
+  computed: {
+    filterlist () {
+      return this.trays.filter((tray) => {
+        return tray.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 .container {
   gap: 1rem;
   padding: 1rem;
   margin: auto;
+  border: 1px solid black;
+  width: 80%;
+  background-color: #f0eaea;
+  margin-top: 3rem;
+  border-radius: 10px;
 }
 .menus {
   border: 1px solid #ccc;
@@ -186,9 +184,10 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-  min-height: 150px;
+  min-height: 80px;
   margin-bottom: 10px;
   background-color: #fff;
+  border-radius: 10px;
 }
 .menu:hover {
   background-color: #ccc;
@@ -200,20 +199,21 @@ export default {
   gap: 1rem;
 }
 .title {
+  text-align-last: center;
   position: relative;
   text-transform: uppercase;
   font-size: 3rem;
-  color: grey;
+  color: #2c3e50;
   font-weight: 900;
   font-family: 'Catamaran', sans-serif;
   font-style: italic;
 }
-
 .buscador {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
-
 .texto {
   display: flex;
   justify-content: center;
@@ -222,5 +222,62 @@ export default {
   font-weight: 900;
   font-family: 'Catamaran', sans-serif;
   font-style: italic;
+}
+.boton {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+  padding: auto;
+}
+.boton:hover {
+  background-color: white;
+  color: #2c3e50;
+  cursor: pointer;
+}
+.boton_2 {
+  justify-content: center;
+  gap: 1rem;
+  width: 200px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+  padding: auto;
+}
+.boton_2:hover {
+  background-color: white;
+  color: #2c3e50;
+  cursor: pointer;
+}
+
+.name {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+  margin: 0;
+}
+.price {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  font-weight: 900;
+  font-family: 'Catamaran', sans-serif;
+  font-style: italic;
+  margin: 0;
+}
+html {
+  background-image: url(https://www.sleek-mag.com/wp-content/uploads/2017/08/Brave-Factory-Music-Festival-5.jpg)
 }
 </style>

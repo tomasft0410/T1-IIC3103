@@ -163,6 +163,7 @@ export default {
   },
   mounted () {
     this.entity_id = this.$route.params.id
+    
   }
 }
 </script>

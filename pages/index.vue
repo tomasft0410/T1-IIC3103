@@ -1,5 +1,5 @@
 <template>
-<div v-if="trays.length >= 0" class="container">
+<div v-if="trays.length >= 0" class="index_container">
   <h1 class="title"> RestoRave </h1>
   <div>
     <p style=" font-size: 20px; font-weight: 900; font-family: 'Catamaran', sans-serif; font-style: italic;">Ordenar Por:</p>
@@ -159,7 +159,7 @@ export default {
 
 <style>
 
-.container {
+.index_container {
   gap: 1rem;
   padding: 1rem;
   margin: auto;

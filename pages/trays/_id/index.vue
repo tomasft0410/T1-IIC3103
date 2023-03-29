@@ -35,7 +35,7 @@
         {{ review.content }} <br>
         <hr>
         <p class="username">{{  review.username }}</p> 
-        {{ review.date.split(" ")[0] }}
+        <p v-if = "review.date != null"> {{ review.date.split(" ")[0] }} </p>
         <br> <br>
       </li>
     </div>
